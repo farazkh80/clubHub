@@ -43,7 +43,6 @@ public class dataBaseCon {
             Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
     void getData() {
         int clubId;
         String clubName;
@@ -77,7 +76,6 @@ public class dataBaseCon {
         }
 
     }
-
     void updateDataName(int clubCurrentid, String clubNewName) {
 
         try {
@@ -138,7 +136,6 @@ public class dataBaseCon {
             Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
     void updateDataLocation (int clubCurrentid, String clubNewLocation) {
 
         try {
