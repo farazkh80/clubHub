@@ -99,8 +99,7 @@ public class admin {
 
     }
 
-    public void changePassword() {
-
+    public boolean checkPassword() {
         boolean currentPassMatched = true;
         input.nextLine();
         do {
@@ -109,45 +108,55 @@ public class admin {
             String userEntry = input.nextLine();
             if (userEntry.equals(getPassword())) {
                 currentPassMatched = true;
-                boolean newPassesMatched = true;
-                do {
-                    System.out.println("Idetity Verfied, please enter your new password:");
-                    String userFirstEntry = input.nextLine();
-                    System.out.println("Please enter your new password again:");
-                    String userSecondEntry = input.nextLine();
-
-                    if (userFirstEntry.equals(userSecondEntry)) {
-                        newPassesMatched = true;
-                        String newPassword = userFirstEntry;
-
-                        try {
-                            Class.forName("com.mysql.jdbc.Driver");
-                            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin", "root", "Mypassword1234");
-                            PreparedStatement stmt = con.prepareStatement("UPDATE adminlist SET password = ? WHERE username = ?");
-                            stmt.setString(1, newPassword);
-
-                            stmt.setString(2, getUserName());
-
-                            stmt.executeUpdate();
-                            System.out.println("Succesfully Changed.");
-                            stmt.close();
-
-                        } catch (ClassNotFoundException | SQLException ex) {
-
-                            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-
-                    } else {
-                        newPassesMatched = false;
-                        System.out.println("password didn't match");
-                    }
-                } while (newPassesMatched == false);
             } else {
                 currentPassMatched = false;
-                System.out.println("incorrect password, action failed");
+                System.out.println("password didn't match");
             }
         } while (currentPassMatched == false);
 
+        return currentPassMatched;
+
+    }
+
+    public void changePassword() {
+
+        if (checkPassword()) {
+
+            boolean newPassesMatched = true;
+            do {
+                System.out.println("Idetity Verfied, please enter your new password:");
+                String userFirstEntry = input.nextLine();
+                System.out.println("Please enter your new password again:");
+                String userSecondEntry = input.nextLine();
+
+                if (userFirstEntry.equals(userSecondEntry)) {
+                    newPassesMatched = true;
+                    String newPassword = userFirstEntry;
+
+                    try {
+                        Class.forName("com.mysql.jdbc.Driver");
+                        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin", "root", "Mypassword1234");
+                        PreparedStatement stmt = con.prepareStatement("UPDATE adminlist SET password = ? WHERE username = ?");
+                        stmt.setString(1, newPassword);
+
+                        stmt.setString(2, getUserName());
+
+                        stmt.executeUpdate();
+                        System.out.println("Succesfully Changed.");
+                        stmt.close();
+
+                    } catch (ClassNotFoundException | SQLException ex) {
+
+                        Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                } else {
+                    newPassesMatched = false;
+                    System.out.println("password didn't match");
+                }
+            } while (newPassesMatched == false);
+
+        }
     }
 
     public void addAdmin() {
@@ -177,7 +186,8 @@ public class admin {
 
                 } catch (ClassNotFoundException | SQLException ex) {
 
-                    Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(club.class
+                            .getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 matched = false;
@@ -202,12 +212,12 @@ public class admin {
                 user = rs.getString("username");
                 System.out.println("Username: " + user);
                 System.out.println("");
-            
 
             }
         } catch (ClassNotFoundException | SQLException ex) {
 
-            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(club.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
 
         do {
@@ -230,7 +240,8 @@ public class admin {
 
                 } catch (ClassNotFoundException | SQLException ex) {
 
-                    Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(club.class
+                            .getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
 
@@ -240,108 +251,6 @@ public class admin {
 
         } while (matched == false);
 
-    }
-
-    public void adminOperations() {
-        int id;
-        String name;
-        int size;
-        String manager;
-        String location;
-        String contin = "yes";
-        club test = new club();
-        do {
-            System.out.println("What would you ilke to do?");
-            System.out.println("1-Insert a new Club\n2-Get the list of current clubs\n3-Update a club\n4-Change Password\n5-Add a new admin\n6-Delete an admin");
-            int userAction = input.nextInt();
-            switch (userAction) {
-
-                case 1:
-
-                    input.nextLine();
-                    System.out.println("Enter the Club Name: ");
-                    name = input.nextLine();
-
-                    System.out.println("Enter the Club Size");
-                    size = input.nextInt();
-
-                    input.nextLine();
-                    System.out.println("Enter the Club Manager Name");
-                    manager = input.nextLine();
-
-                    System.out.println("Enter the club Location");
-                    location = input.nextLine();
-
-                    test.addClub(name, size, manager, location);
-
-                    break;
-
-                case 2:
-
-                    test.getClubData();
-                    break;
-
-                case 3:
-                    System.out.println("See the list of clubs first");
-                    test.getClubData();
-                    System.out.print("Enter the id of the club you would like to update: ");
-                    id = input.nextInt();
-                    System.out.println("What would you like to update: ");
-                    System.out.println("1-Name\n2-Size\n3-Manager\n4-Location");
-                    int userUpdateChoice = input.nextInt();
-                    switch (userUpdateChoice) {
-
-                        case 1:
-                            input.nextLine();
-                            System.out.println("Enter the new NAME: ");
-                            name = input.nextLine();
-                            test.changeName(id, name);
-                            break;
-
-                        case 2:
-                            input.nextLine();
-                            System.out.println("Enter the new SIZE: ");
-                            size = input.nextInt();
-                            test.changeSize(id, size);
-                            break;
-                        case 3:
-                            input.nextLine();
-                            System.out.println("Enter the new MANAGER: ");
-                            manager = input.nextLine();
-                            test.changeManager(id, manager);
-                            break;
-                        case 4:
-                            input.nextLine();
-                            System.out.println("Enter the new Location: ");
-                            location = input.nextLine();
-                            test.changeLocation(id, location);
-                            break;
-
-                    }
-                    break;
-
-                case 4:
-
-                    changePassword();
-
-                    break;
-
-                case 5:
-
-                    addAdmin();
-                    break;
-
-                case 6:
-
-                    deleteAdmin();
-
-            }
-
-            System.out.println("Would you like to continue");
-
-            contin = input.next();
-
-        } while (contin.equalsIgnoreCase("yes"));
     }
 
 }
