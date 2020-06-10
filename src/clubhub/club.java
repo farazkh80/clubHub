@@ -7,7 +7,7 @@ public class club {
     private static int clubSize;
     private static String clubManager;
     private static String clubLocation;
-    dataBaseCon club = new dataBaseCon();
+    dataBaseCon db = new dataBaseCon();
 
     public void addClub(String name, int size, String manager, String location) {
 
@@ -16,19 +16,19 @@ public class club {
         clubManager = manager;
         clubLocation = location;
 
-        club.insertData(clubName, clubSize, clubManager, clubLocation);
+        db.insertData(clubName, clubSize, clubManager, clubLocation);
 
     }
 
     public void getClubData() {
 
-        club.getData();
+        db.getData();
     }
 
     public String changeName(int currentId, String newName) {
 
         clubName = newName;
-        club.updateDataName(currentId, newName);
+        db.updateDataName(currentId, newName);
         return clubName;
 
     }
@@ -36,7 +36,7 @@ public class club {
     public int changeSize(int currentId, int newSize) {
 
         clubSize = newSize;
-        club.updateDataSize(currentId, newSize);
+        db.updateDataSize(currentId, newSize);
         return clubSize;
 
     }
@@ -44,7 +44,7 @@ public class club {
     public String changeManager(int currentId, String newManager) {
 
         clubManager = newManager;
-        club.updateDataManager(currentId, newManager);
+        db.updateDataManager(currentId, newManager);
         return clubManager;
 
     }
@@ -52,8 +52,15 @@ public class club {
     public String changeLocation(int currentId, String newLocation) {
 
         clubLocation = newLocation;
-        club.updateDataLocation(currentId, newLocation);
+        db.updateDataLocation(currentId, newLocation);
         return clubLocation;
+
+    }
+
+    public void deleteClub(int id) {
+
+        clubId = id;
+        db.deleteClub(id);
 
     }
 
@@ -61,6 +68,22 @@ public class club {
 
         clubSize += numberOfNewMembers;
         return clubSize;
+    }
+
+    public void createClubTable(String name) {
+
+        clubName = name;
+
+        db.createTable(clubName);
+
+    }
+
+    public void deleteClubTable(String name) {
+
+        clubName = name;
+
+        db.deleteTable(clubName);
+
     }
 
 }

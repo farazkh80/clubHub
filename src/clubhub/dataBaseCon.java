@@ -40,9 +40,11 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
 
-            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(club.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     void getData() {
         int clubId;
         String clubName;
@@ -72,10 +74,12 @@ public class dataBaseCon {
             }
         } catch (ClassNotFoundException | SQLException ex) {
 
-            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(club.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
 
     }
+
     void updateDataName(int clubCurrentid, String clubNewName) {
 
         try {
@@ -93,9 +97,11 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
 
-            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(club.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     void updateDataSize(int clubCurrentid, int clubNewSize) {
 
         try {
@@ -113,9 +119,11 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
 
-            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(club.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     void updateDataManager(int clubCurrentid, String clubNewManager) {
 
         try {
@@ -133,10 +141,12 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
 
-            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(club.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
-    void updateDataLocation (int clubCurrentid, String clubNewLocation) {
+
+    void updateDataLocation(int clubCurrentid, String clubNewLocation) {
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -153,8 +163,66 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
 
-            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(club.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    void createTable(String tableName) {
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubs", "root", "Mypassword1234");
+            PreparedStatement stmt = con.prepareStatement("CREATE TABLE `" + tableName + "` (id int(100) PRIMARY KEY AUTO_INCREMENT NOT NULL,  news longtext NOT NULL);");
+
+            stmt.executeUpdate();
+            System.out.println("Succesfully Created the Table.");
+            stmt.close();
+
+        } catch (ClassNotFoundException | SQLException ex) {
+
+            Logger.getLogger(club.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    void deleteClub(int id) {
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubs", "root", "Mypassword1234");
+            PreparedStatement stmt = con.prepareStatement("DELETE FROM clublist WHERE id = ?");
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+            System.out.println("Succesfully Deleted the Club.");
+            stmt.close();
+
+        } catch (ClassNotFoundException | SQLException ex) {
+
+            Logger.getLogger(club.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    void deleteTable(String tableName) {
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubs", "root", "Mypassword1234");
+            PreparedStatement stmt = con.prepareStatement("DROP TABLE `" + tableName + "`;");
+
+            stmt.executeUpdate();
+            System.out.println("Succesfully Deleted the Table.");
+            stmt.close();
+
+        } catch (ClassNotFoundException | SQLException ex) {
+
+            Logger.getLogger(club.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
 }
