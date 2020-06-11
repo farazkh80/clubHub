@@ -7,6 +7,9 @@ public class club {
     private static int clubSize;
     private static String clubManager;
     private static String clubLocation;
+    private static String clubPost;
+    private static String postDate;
+
     dataBaseCon db = new dataBaseCon();
 
     public void addClub(String name, int size, String manager, String location) {
@@ -64,17 +67,19 @@ public class club {
 
     }
 
-    public int addMember(int numberOfNewMembers) {
-
-        clubSize += numberOfNewMembers;
-        return clubSize;
-    }
-
     public void createClubTable(String name) {
 
         clubName = name;
 
         db.createTable(clubName);
+
+    }
+
+    public void createClubTableForPosts(String name) {
+
+        clubName = name;
+
+        db.createTableForPosts(clubName);
 
     }
 
@@ -84,6 +89,37 @@ public class club {
 
         db.deleteTable(clubName);
 
+    }
+
+    public void memberAdded(int id) {
+
+        clubId = id;
+
+        db.memberIncreased(clubId);
+
+    }
+
+    public void memberList(String cName) {
+
+        clubName = cName;
+
+        db.getMemberList(clubName);
+    }
+    
+    public void addPost(String cName, String cPost, String pDate){
+        
+        clubName = cName;
+        clubPost = cPost;
+        postDate = pDate;
+        
+        db.addNewPost(clubName, clubPost, postDate);
+        
+    }
+    public void getPosts(String cName){
+        
+        clubName = cName;
+        
+        db.getPostsFromDataBase(clubName);
     }
 
 }

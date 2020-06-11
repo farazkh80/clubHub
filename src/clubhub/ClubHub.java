@@ -1,3 +1,4 @@
+
 package clubhub;
 
 import java.util.Scanner;
@@ -6,7 +7,8 @@ public class ClubHub {
 
     public static void main(String[] args) {
 
-        Operations operation = new Operations();
+        adminEngine operation = new adminEngine();
+        clientEngine coperation = new clientEngine();
         Scanner input = new Scanner(System.in);
 
         System.out.println("Select one of the above:\n1-Admin Login\n2-Client use");
@@ -16,6 +18,10 @@ public class ClubHub {
             operation.operationsList();
 
         } else if (userChoice == 2) {
+            
+            coperation.clientOperations();
+                    
+                    
 
         }
     }
