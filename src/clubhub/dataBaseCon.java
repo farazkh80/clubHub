@@ -40,8 +40,7 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
 
-            Logger.getLogger(club.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -74,8 +73,7 @@ public class dataBaseCon {
             }
         } catch (ClassNotFoundException | SQLException ex) {
 
-            Logger.getLogger(club.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -97,8 +95,7 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
 
-            Logger.getLogger(club.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -119,8 +116,7 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
 
-            Logger.getLogger(club.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -141,8 +137,7 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
 
-            Logger.getLogger(club.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -163,8 +158,7 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
 
-            Logger.getLogger(club.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -173,7 +167,7 @@ public class dataBaseCon {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubs", "root", "Mypassword1234");
-            PreparedStatement stmt = con.prepareStatement("CREATE TABLE `" + tableName + "` (id int(100) PRIMARY KEY AUTO_INCREMENT NOT NULL,  news longtext NOT NULL);");
+            PreparedStatement stmt = con.prepareStatement("CREATE TABLE `" + tableName + "` (id int(100) PRIMARY KEY AUTO_INCREMENT NOT NULL,  firstname varchar(100) NOT NULL, lastname varchar(100) not null, grade int not null, studentnumber int not null);");
 
             stmt.executeUpdate();
             System.out.println("Succesfully Created the Table.");
@@ -181,8 +175,25 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
 
-            Logger.getLogger(club.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    void createTableForPosts(String tableName) {
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubposts", "root", "Mypassword1234");
+            PreparedStatement stmt = con.prepareStatement("CREATE TABLE `" + tableName + "` (id int(100) PRIMARY KEY AUTO_INCREMENT NOT NULL, post longtext not null, postdate DATE not null);");
+
+            stmt.executeUpdate();
+            System.out.println("Succesfully Created the Table.");
+            stmt.close();
+
+        } catch (ClassNotFoundException | SQLException ex) {
+
+            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -200,8 +211,7 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
 
-            Logger.getLogger(club.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -219,8 +229,149 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
 
-            Logger.getLogger(club.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    void addMember(String clubName, String fname, String lname, int grade, int studentNum) {
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubs", "root", "Mypassword1234");
+            PreparedStatement stmt = con.prepareStatement("INSERT INTO `" + clubName + "` (firstname, lastname, grade, studentnumber) VALUES (?, ?, ?, ?)");
+            stmt.setString(1, fname);
+            stmt.setString(2, lname);
+            stmt.setInt(3, grade);
+            stmt.setInt(4, studentNum);
+            stmt.execute();
+            System.out.println("Succesfully added.");
+            stmt.close();
+
+        } catch (ClassNotFoundException | SQLException ex) {
+
+            Logger.getLogger(student.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    void memberIncreased(int clubId) {
+
+        int currentSize = 0;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubs", "root", "Mypassword1234");
+            String query = "SELECT * FROM clublist WHERE id = ?";
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, clubId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                currentSize = rs.getInt("size");
+            }
+
+        } catch (ClassNotFoundException | SQLException ex) {
+
+            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubs", "root", "Mypassword1234");
+            PreparedStatement stmt = con.prepareStatement("UPDATE clublist SET size = ? WHERE  id = ?");
+            stmt.setInt(1, currentSize + 1);
+            stmt.setInt(2, clubId);
+
+            stmt.execute();
+            System.out.println("Succesfully added.");
+            stmt.close();
+
+        } catch (ClassNotFoundException | SQLException ex) {
+
+            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    void getMemberList(String name) {
+        int studentId;
+        String studentFirstName;
+        String studentLastName;
+        int studentGrade;
+        int studentStudentNumber;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubs", "root", "Mypassword1234");
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `" + name + "`");
+            while (rs.next()) {
+
+                studentId = rs.getInt("id");
+                studentFirstName = rs.getString("firstname");
+                studentLastName = rs.getString("lastname");
+                studentGrade = rs.getInt("grade");
+                studentStudentNumber = rs.getInt("studentnumber");
+
+                System.out.println("Student id:\t " + studentId);
+                System.out.println("Student First Name:\t" + studentFirstName);
+                System.out.println("Student Last Name:\t" + studentLastName);
+                System.out.println("Student Grade:\t" + studentGrade);
+                System.out.println("Student Number:\t" + studentStudentNumber);
+                System.out.println("");
+                System.out.println("");
+
+            }
+
+        } catch (ClassNotFoundException | SQLException ex) {
+
+            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    void addNewPost(String clubName, String clubPost, String postDate) {
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubposts", "root", "Mypassword1234");
+            PreparedStatement stmt = con.prepareStatement("INSERT INTO `" + clubName + "` (post, postdate) VALUES (?, ?)");
+            stmt.setString(1, clubPost);
+            stmt.setString(2, postDate);
+            stmt.execute();
+            System.out.println("Succesfully added the post.");
+            stmt.close();
+
+        } catch (ClassNotFoundException | SQLException ex) {
+
+            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    void getPostsFromDataBase(String clubName) {
+
+        String post;
+        String date;
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubposts", "root", "Mypassword1234");
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `" + clubName + "` ORDER BY postdate DESC");
+            while (rs.next()) {
+
+                
+                post = rs.getString("post");
+                date = rs.getString("postdate");
+                System.out.print(date+"\t\t");
+                System.out.println(post);
+                System.out.println("");
+                System.out.println("");
+
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+
+            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }

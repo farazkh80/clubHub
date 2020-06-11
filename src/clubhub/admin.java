@@ -101,7 +101,7 @@ public class admin {
 
     public boolean checkPassword() {
         boolean currentPassMatched = true;
-        input.nextLine();
+        
         do {
 
             System.out.println("To Confirm Your Identity, Please enter your cuurent password again.");
@@ -147,7 +147,7 @@ public class admin {
 
                     } catch (ClassNotFoundException | SQLException ex) {
 
-                        Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
                 } else {
@@ -162,7 +162,7 @@ public class admin {
     public void addAdmin() {
 
         boolean matched = true;
-        input.nextLine();
+        
         System.out.println("Enter a username of the new admin:");
         String newAdminUserName = input.nextLine();
         do {
@@ -186,8 +186,7 @@ public class admin {
 
                 } catch (ClassNotFoundException | SQLException ex) {
 
-                    Logger.getLogger(club.class
-                            .getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 matched = false;
@@ -201,7 +200,7 @@ public class admin {
         String user;
 
         boolean matched = false;
-        input.nextLine();
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin", "root", "Mypassword1234");
@@ -240,8 +239,7 @@ public class admin {
 
                 } catch (ClassNotFoundException | SQLException ex) {
 
-                    Logger.getLogger(club.class
-                            .getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
 
