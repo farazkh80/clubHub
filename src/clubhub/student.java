@@ -10,14 +10,17 @@ package clubhub;
  * @author Faraz Khoubsirat
  */
 public class student {
-
+    
+    
+    //declaring varibales for student class
     private static String clubName;
     private static String studentFirstName;
     private static String studentLastName;
     private static int studentGrade;
     private static int studentNumber;
     dataBaseCon db = new dataBaseCon();
-
+    
+    //method to add a memeber
     public void addMember(String cName, String fname, String lname, int grade, int studentNum) {
 
         clubName = cName;
@@ -25,7 +28,8 @@ public class student {
         studentLastName = lname;
         studentGrade = grade;
         studentNumber = studentNum;
-
+        
+        //calls db obj to insert a new member in club's member table
         db.addMember(clubName, studentFirstName, studentLastName, studentGrade, studentNumber);
 
     }
