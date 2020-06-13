@@ -48,6 +48,18 @@ public class admin {
 
         return password;
     }
+    
+    Connection adminCon() throws ClassNotFoundException {
+
+        Connection con = null;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin", "root", "Mypassword1234");
+        } catch (SQLException ex) {
+            Logger.getLogger(dataBaseCon.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return con;
+    }
 
     //checkAdmin method checks if the admin username and password entries are in the database
     public Boolean checkAdmin() {
@@ -62,11 +74,8 @@ public class admin {
             setPassword();
 
             try {
-                //configures the database connection
-                Class.forName("com.mysql.jdbc.Driver");
-                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin", "root", "Mypassword1234");
                 //uses prepared statement to select all the admins from adminlist table and check if any of them match with the user entries
-                Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+                Statement stmt = adminCon().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                         ResultSet.CONCUR_READ_ONLY);
                 ResultSet rs = stmt.executeQuery("SELECT * FROM adminlist");
                 rs.beforeFirst();
@@ -86,6 +95,7 @@ public class admin {
                 }
                 //returns incorrect username or password if it doesn't match and promts for reentry
                 if (!loggedIn) {
+                    System.out.println("\n\n");
                     System.out.println("incorrect username or password");
                 }
 
@@ -98,9 +108,11 @@ public class admin {
 
         //if logged in return true
         if (loggedIn == true) {
+            System.out.println("\n\n");
             System.out.println("Logged in");
             return true;
         } else {
+            System.out.println("\n\n");
             System.out.println("Too many wrong entries. Try again later.");
             return false;
         }
@@ -149,10 +161,8 @@ public class admin {
 
                     //database configuration to update the password for the admin on database
                     try {
-                        Class.forName("com.mysql.jdbc.Driver");
-                        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin", "root", "Mypassword1234");
                         //uses prepared statement to update the password
-                        PreparedStatement stmt = con.prepareStatement("UPDATE adminlist SET password = ? WHERE username = ?");
+                        PreparedStatement stmt = adminCon().prepareStatement("UPDATE adminlist SET password = ? WHERE username = ?");
                         stmt.setString(1, newPassword);
 
                         stmt.setString(2, getUsername());
@@ -197,10 +207,8 @@ public class admin {
                 matched = true;
                 String newAdminPassword = newAdminFirstPasswordEntry;
                 try {
-                    Class.forName("com.mysql.jdbc.Driver");
-                    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin", "root", "Mypassword1234");
                     //inserts a new admin using prepared statements
-                    PreparedStatement stmt = con.prepareStatement("INSERT INTO adminList (username, password) VALUES (?, ?)");
+                    PreparedStatement stmt = adminCon().prepareStatement("INSERT INTO adminList (username, password) VALUES (?, ?)");
                     stmt.setString(1, newAdminUserName);
                     stmt.setString(2, newAdminPassword);
                     stmt.execute();
@@ -226,9 +234,7 @@ public class admin {
         String user;
         //configues the database connection to show all the available admins
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin", "root", "Mypassword1234");
-            Statement stmt = con.createStatement();
+            Statement stmt = adminCon().createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM adminlist");
             while (rs.next()) {
 
@@ -246,10 +252,9 @@ public class admin {
 
     //method to delete an Admin from the database
     public void deleteAdmin() {
-        
+
         boolean matched = false;
 
-        
         do {
             //asks the user for the username they would like to delete
             System.out.println("Enter the username you want to delete");
@@ -261,25 +266,23 @@ public class admin {
             if (deletedUsernameFirstEntry.equals(deletedUsernameSecondEntry)) {
                 matched = true;
                 String deletedUsername = deletedUsernameFirstEntry;
-                
+
                 //configures the database connection to delete and admin
                 try {
-                    Class.forName("com.mysql.jdbc.Driver");
-                    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin", "root", "Mypassword1234");
                     //deletes the admin using prepared statement
-                    PreparedStatement stmt = con.prepareStatement("DELETE FROM adminList WHERE username = ?");
+                    PreparedStatement stmt = adminCon().prepareStatement("DELETE FROM adminList WHERE username = ?");
                     stmt.setString(1, deletedUsername);
                     stmt.execute();
                     System.out.println("Succesfully deleted.");
                     stmt.close();
 
                 } catch (ClassNotFoundException | SQLException ex) {
-                    
+
                     //shows error if unsuccessful
                     Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
-                
+
                 //shows the message if the two admin entries don't match
                 System.out.println("Didn't match");
                 matched = false;

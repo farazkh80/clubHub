@@ -19,12 +19,13 @@ public class studentEngine {
     student newStudent = new student();
 
     public void operations() {
-
+        
         //variable contin to see if the user wants to continue
         String contin = "yes";
         do {
+            System.out.println("\n\n");
             //promting the user to choose between 3 options available for student side.
-            System.out.println("What would you like to do?\n1-See the list of current clubs\n2-Become a member to a club\n3-See club posts");
+            System.out.println("What would you like to do?\n\n1-See the list of current clubs\n---------------------\n2-Become a member to a club\n---------------------\n3-See club posts");
             int userAction = input.nextInt();
 
             switch (userAction) {

@@ -28,10 +28,10 @@ The main design is based on object-oriented programming, each class having the f
 * adminEngine class handles the admin operations and calls upon other objects (classes) in different scenarios.
 
 
-   * adminEngine calls upon the club class in case of any operations related to club           information.
+   * adminEngine calls upon the club class in case of any operations related to club information.
       * club class calls upon the dataBaseCon class to implement the adjustments initiated by adminEngine in the clubs database.
    * adminEngine calls upon the admin class in case of any operations related to the admin information.
-      * admin class calls upon the dataBaseCon class to implement the adjustments initiated by adminEngine in the admins database.
+      * admin class implement the adjustments initiated by adminEngine in the admins database.
 
 
 

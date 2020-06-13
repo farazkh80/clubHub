@@ -33,4 +33,12 @@ public class student {
         db.addMember(clubName, studentFirstName, studentLastName, studentGrade, studentNumber);
 
     }
+    
+    public void deleteMember(String cName, int studentNum){
+        clubName = cName;
+        studentNumber = studentNum;
+        
+        //calls db obj to delete the member in club's member table
+        db.deleteMember(clubName, studentNumber);
+    }
 }

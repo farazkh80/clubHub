@@ -10,6 +10,7 @@ public class club {
     private static String clubLocation;
     private static String clubPost;
     private static String postDate;
+    private static int postId;
 
     dataBaseCon db = new dataBaseCon();
     
@@ -116,6 +117,14 @@ public class club {
 
     }
     
+    public void memberRemoved(int id) {
+
+        clubId = id;
+        //cals db object to update and increase the size of a club
+        db.memberDecreased(clubId);
+
+    }
+    
     //method to get the list of members for a specific club
     public void memberList(String cName) {
         System.out.println("Here is the list of members:\n\n");
@@ -135,12 +144,28 @@ public class club {
         
     }
     
+     //method to add a post to a club's post table
+    public void deletePost(String cName, int pId){
+        
+        clubName = cName;
+        postId= pId;
+        //cals db object to insert a post
+        db.deletePost(clubName, postId);
+        
+    }
     //method the get posts of a club
     public void getPosts(String cName){
         System.out.println("Here is the list of posts:\n\n");
         clubName = cName;
         //cals db object to get the posts in order of their dates(latest to oldest)
         db.getPostsFromDataBase(clubName);
+    }
+    
+    public void getPostsWithId(String cName){
+        System.out.println("Here is the list of posts:\n\n");
+        clubName = cName;
+        //cals db object to get the posts in order of their dates(latest to oldest)
+        db.getPostsWithIdFromDataBase(clubName);
     }
 
 }
