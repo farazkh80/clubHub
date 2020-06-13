@@ -20,14 +20,36 @@ import java.util.logging.Logger;
  */
 public class dataBaseCon {
 
+    Connection clubsCon() throws ClassNotFoundException {
+
+        Connection con = null;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubs", "root", "Mypassword1234");
+        } catch (SQLException ex) {
+            Logger.getLogger(dataBaseCon.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return con;
+    }
+     Connection clubPostsCon() throws ClassNotFoundException {
+
+        Connection con = null;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubposts", "root", "Mypassword1234");
+        } catch (SQLException ex) {
+            Logger.getLogger(dataBaseCon.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return con;
+    }
+
     //database configuration to insert a new club
     void insertData(String clubName, int clubSize, String clubManager, String clubLocation) {
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubs", "root", "Mypassword1234");
+
             //using prepared statement to insert a new club
-            PreparedStatement stmt = con.prepareStatement("INSERT INTO clublist (name, size, manager, location) VALUES (?, ?, ?, ?)");
+            PreparedStatement stmt = clubsCon().prepareStatement("INSERT INTO clublist (name, size, manager, location) VALUES (?, ?, ?, ?)");
             stmt.setString(1, clubName);
             stmt.setInt(2, clubSize);
             stmt.setString(3, clubManager);
@@ -44,16 +66,15 @@ public class dataBaseCon {
 
     //database configuration to get the list of clubs
     void getData() {
+
         int clubId;
         String clubName;
         int clubSize;
         String clubManager;
         String clubLocation;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubs", "root", "Mypassword1234");
             //using prepared statement to get the list of clubs
-            Statement stmt = con.createStatement();
+            Statement stmt = clubsCon().createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM clublist");
             while (rs.next()) {
 
@@ -82,10 +103,9 @@ public class dataBaseCon {
     void updateDataName(int clubCurrentid, String clubNewName) {
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubs", "root", "Mypassword1234");
+
             //using prepared statement to update a club's name
-            PreparedStatement stmt = con.prepareStatement("UPDATE clublist SET name = ? WHERE id = ?");
+            PreparedStatement stmt = clubsCon().prepareStatement("UPDATE clublist SET name = ? WHERE id = ?");
 
             stmt.setString(1, clubNewName);
 
@@ -105,10 +125,9 @@ public class dataBaseCon {
     void updateDataSize(int clubCurrentid, int clubNewSize) {
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubs", "root", "Mypassword1234");
+            
             //using prepared statement to update a club's size
-            PreparedStatement stmt = con.prepareStatement("UPDATE clublist SET size = ? WHERE id = ?");
+            PreparedStatement stmt = clubsCon().prepareStatement("UPDATE clublist SET size = ? WHERE id = ?");
 
             stmt.setInt(1, clubNewSize);
 
@@ -128,10 +147,8 @@ public class dataBaseCon {
     void updateDataManager(int clubCurrentid, String clubNewManager) {
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubs", "root", "Mypassword1234");
             //using prepared statement to update a club's manager
-            PreparedStatement stmt = con.prepareStatement("UPDATE clublist SET manager = ? WHERE id = ?");
+            PreparedStatement stmt = clubsCon().prepareStatement("UPDATE clublist SET manager = ? WHERE id = ?");
 
             stmt.setString(1, clubNewManager);
 
@@ -151,10 +168,8 @@ public class dataBaseCon {
     void updateDataLocation(int clubCurrentid, String clubNewLocation) {
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubs", "root", "Mypassword1234");
             //using prepared statement to update a club's location
-            PreparedStatement stmt = con.prepareStatement("UPDATE clublist SET location  = ? WHERE id = ?");
+            PreparedStatement stmt = clubsCon().prepareStatement("UPDATE clublist SET location  = ? WHERE id = ?");
 
             stmt.setString(1, clubNewLocation);
 
@@ -174,10 +189,8 @@ public class dataBaseCon {
     void createTable(String tableName) {
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubs", "root", "Mypassword1234");
             //using prepared statement to create a table for the members of the club
-            PreparedStatement stmt = con.prepareStatement("CREATE TABLE `" + tableName + "` (id int(100) PRIMARY KEY AUTO_INCREMENT NOT NULL,  firstname varchar(100) NOT NULL, lastname varchar(100) not null, grade int not null, studentnumber int not null);");
+            PreparedStatement stmt = clubsCon().prepareStatement("CREATE TABLE `" + tableName + "` (id int(100) PRIMARY KEY AUTO_INCREMENT NOT NULL,  firstname varchar(100) NOT NULL, lastname varchar(100) not null, grade int not null, studentnumber int not null);");
 
             stmt.executeUpdate();
             System.out.println("Succesfully Created the Member Table.");
@@ -194,10 +207,8 @@ public class dataBaseCon {
     void createTableForPosts(String tableName) {
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubposts", "root", "Mypassword1234");
             //using prepared statement to create a table for the posts of the club
-            PreparedStatement stmt = con.prepareStatement("CREATE TABLE `" + tableName + "` (id int(100) PRIMARY KEY AUTO_INCREMENT NOT NULL, post longtext not null, postdate DATE not null);");
+            PreparedStatement stmt = clubPostsCon().prepareStatement("CREATE TABLE `" + tableName + "` (id int(100) PRIMARY KEY AUTO_INCREMENT NOT NULL, post longtext not null, postdate DATE not null);");
 
             stmt.executeUpdate();
             System.out.println("Succesfully Created the Posts Table.");
@@ -217,7 +228,7 @@ public class dataBaseCon {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubs", "root", "Mypassword1234");
             //using prepared statement to delete a club information
-            PreparedStatement stmt = con.prepareStatement("DELETE FROM clublist WHERE id = ?");
+            PreparedStatement stmt =clubsCon().prepareStatement("DELETE FROM clublist WHERE id = ?");
             stmt.setInt(1, id);
             stmt.executeUpdate();
             System.out.println("Succesfully Deleted the Club.");
@@ -234,10 +245,8 @@ public class dataBaseCon {
     void deleteTable(String tableName) {
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubs", "root", "Mypassword1234");
             //using prepared statement to delete a club table for members 
-            PreparedStatement stmt = con.prepareStatement("DROP TABLE `" + tableName + "`;");
+            PreparedStatement stmt = clubsCon().prepareStatement("DROP TABLE `" + tableName + "`;");
 
             stmt.executeUpdate();
             System.out.println("Succesfully Deleted the Member Table.");
@@ -249,10 +258,8 @@ public class dataBaseCon {
         }
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubposts", "root", "Mypassword1234");
             //using prepared statement to delete a club table for posts
-            PreparedStatement stmt = con.prepareStatement("DROP TABLE `" + tableName + "`;");
+            PreparedStatement stmt = clubPostsCon().prepareStatement("DROP TABLE `" + tableName + "`;");
 
             stmt.executeUpdate();
             System.out.println("Succesfully Deleted the Posts Table.");
@@ -269,10 +276,8 @@ public class dataBaseCon {
     void addMember(String clubName, String fname, String lname, int grade, int studentNum) {
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubs", "root", "Mypassword1234");
             //using prepared statement to add a member for a club
-            PreparedStatement stmt = con.prepareStatement("INSERT INTO `" + clubName + "` (firstname, lastname, grade, studentnumber) VALUES (?, ?, ?, ?)");
+            PreparedStatement stmt = clubsCon().prepareStatement("INSERT INTO `" + clubName + "` (firstname, lastname, grade, studentnumber) VALUES (?, ?, ?, ?)");
             stmt.setString(1, fname);
             stmt.setString(2, lname);
             stmt.setInt(3, grade);
@@ -293,11 +298,9 @@ public class dataBaseCon {
 
         int currentSize = 0;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubs", "root", "Mypassword1234");
             //using prepared statement to increase the size of a club after adding a member
             String query = "SELECT * FROM clublist WHERE id = ?";
-            PreparedStatement stmt = con.prepareStatement(query);
+            PreparedStatement stmt = clubsCon().prepareStatement(query);
             stmt.setInt(1, clubId);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -311,14 +314,65 @@ public class dataBaseCon {
         }
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubs", "root", "Mypassword1234");
-            PreparedStatement stmt = con.prepareStatement("UPDATE clublist SET size = ? WHERE  id = ?");
+            PreparedStatement stmt = clubsCon().prepareStatement("UPDATE clublist SET size = ? WHERE  id = ?");
             stmt.setInt(1, currentSize + 1);
             stmt.setInt(2, clubId);
 
             stmt.execute();
-            System.out.println("Succesfully added.");
+            System.out.println("Succesfully Increased the size.");
+            stmt.close();
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            //shows error if unsuccessful
+            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+    //database configuration to add a member for a club
+    void deleteMember(String clubName, int studentNum) {
+
+        try {
+            //using prepared statement to add a member for a club
+            PreparedStatement stmt = clubsCon().prepareStatement("DELETE FROM `" + clubName + "` WHERE studentnumber = ?");
+            stmt.setInt(1, studentNum);
+            stmt.execute();
+            System.out.println("Succesfully deleted the member");
+            stmt.close();
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            //shows error if unsuccessful
+            Logger.getLogger(student.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+     void memberDecreased(int clubId) {
+
+        int currentSize = 0;
+        try {
+            //using prepared statement to increase the size of a club after adding a member
+            String query = "SELECT * FROM clublist WHERE id = ?";
+            PreparedStatement stmt = clubsCon().prepareStatement(query);
+            stmt.setInt(1, clubId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                currentSize = rs.getInt("size");
+            }
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            //shows error if unsuccessful
+            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            PreparedStatement stmt = clubsCon().prepareStatement("UPDATE clublist SET size = ? WHERE  id = ?");
+            stmt.setInt(1, currentSize - 1);
+            stmt.setInt(2, clubId);
+
+            stmt.execute();
+            System.out.println("Succesfully Decreased the Size.");
             stmt.close();
 
         } catch (ClassNotFoundException | SQLException ex) {
@@ -336,10 +390,8 @@ public class dataBaseCon {
         int studentGrade;
         int studentStudentNumber;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubs", "root", "Mypassword1234");
             //using create statement to get the list of members of a club
-            Statement stmt = con.createStatement();
+            Statement stmt = clubsCon().createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM `" + name + "`");
             while (rs.next()) {
 
@@ -370,14 +422,30 @@ public class dataBaseCon {
     void addNewPost(String clubName, String clubPost, String postDate) {
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubposts", "root", "Mypassword1234");
             //using preapred statement to add a new post to a club
-            PreparedStatement stmt = con.prepareStatement("INSERT INTO `" + clubName + "` (post, postdate) VALUES (?, ?)");
+            PreparedStatement stmt = clubPostsCon().prepareStatement("INSERT INTO `" + clubName + "` (post, postdate) VALUES (?, ?)");
             stmt.setString(1, clubPost);
             stmt.setString(2, postDate);
             stmt.execute();
             System.out.println("Succesfully added the post.");
+            stmt.close();
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            //shows error if unsuccessful
+            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+    //database configuration to delete a post to a club
+    void deletePost(String clubName, int postId) {
+
+        try {
+            //using preapred statement to add a new post to a club
+            PreparedStatement stmt = clubPostsCon().prepareStatement("DELETE FROM `" + clubName + "` WHERE id = ?");
+            stmt.setInt(1, postId);
+            stmt.execute();
+            System.out.println("Succesfully deleted the post.");
             stmt.close();
 
         } catch (ClassNotFoundException | SQLException ex) {
@@ -394,10 +462,8 @@ public class dataBaseCon {
         String date;
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubposts", "root", "Mypassword1234");
             //using create statement to get the list of posts of a club
-            Statement stmt = con.createStatement();
+            Statement stmt = clubPostsCon().createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM `" + clubName + "` ORDER BY postdate DESC");
             while (rs.next()) {
 
@@ -405,6 +471,35 @@ public class dataBaseCon {
                 date = rs.getString("postdate");
                 System.out.print(date + "\t\t");
                 System.out.println(post);
+                System.out.println("");
+                System.out.println("");
+
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            //shows error if unsuccessful
+            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+    
+    //database configuration to get the list of posts of a club with post ids
+    void getPostsWithIdFromDataBase(String clubName) {
+        int id;
+        String post;
+        String date;
+
+        try {
+            //using create statement to get the list of posts of a club
+            Statement stmt = clubPostsCon().createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `" + clubName + "` ORDER BY postdate DESC");
+            while (rs.next()) {
+                id = rs.getInt("id");
+                post = rs.getString("post");
+                date = rs.getString("postdate");
+                System.out.println(id + "\t\t" + date);
+                System.out.println(post);
+                System.out.println("");
                 System.out.println("");
                 System.out.println("");
 
