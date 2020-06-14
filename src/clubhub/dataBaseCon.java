@@ -31,12 +31,25 @@ public class dataBaseCon {
         }
         return con;
     }
-     Connection clubPostsCon() throws ClassNotFoundException {
+
+    Connection clubPostsCon() throws ClassNotFoundException {
 
         Connection con = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubposts", "root", "Mypassword1234");
+        } catch (SQLException ex) {
+            Logger.getLogger(dataBaseCon.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return con;
+    }
+
+    Connection adminCon() throws ClassNotFoundException {
+
+        Connection con = null;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin", "root", "Mypassword1234");
         } catch (SQLException ex) {
             Logger.getLogger(dataBaseCon.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -125,7 +138,7 @@ public class dataBaseCon {
     void updateDataSize(int clubCurrentid, int clubNewSize) {
 
         try {
-            
+
             //using prepared statement to update a club's size
             PreparedStatement stmt = clubsCon().prepareStatement("UPDATE clublist SET size = ? WHERE id = ?");
 
@@ -228,7 +241,7 @@ public class dataBaseCon {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubs", "root", "Mypassword1234");
             //using prepared statement to delete a club information
-            PreparedStatement stmt =clubsCon().prepareStatement("DELETE FROM clublist WHERE id = ?");
+            PreparedStatement stmt = clubsCon().prepareStatement("DELETE FROM clublist WHERE id = ?");
             stmt.setInt(1, id);
             stmt.executeUpdate();
             System.out.println("Succesfully Deleted the Club.");
@@ -328,7 +341,7 @@ public class dataBaseCon {
         }
 
     }
-    
+
     //database configuration to add a member for a club
     void deleteMember(String clubName, int studentNum) {
 
@@ -346,8 +359,8 @@ public class dataBaseCon {
         }
 
     }
-    
-     void memberDecreased(int clubId) {
+
+    void memberDecreased(int clubId) {
 
         int currentSize = 0;
         try {
@@ -436,7 +449,7 @@ public class dataBaseCon {
         }
 
     }
-    
+
     //database configuration to delete a post to a club
     void deletePost(String clubName, int postId) {
 
@@ -481,8 +494,7 @@ public class dataBaseCon {
         }
 
     }
-    
-    
+
     //database configuration to get the list of posts of a club with post ids
     void getPostsWithIdFromDataBase(String clubName) {
         int id;
@@ -509,6 +521,120 @@ public class dataBaseCon {
             Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    boolean checkAdmin(String user, String pass) {
+        boolean loggedIn = false;
+        try {
+            //uses prepared statement to select all the admins from adminlist table and check if any of them match with the user entries
+            Statement stmt = adminCon().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+            ResultSet rs = stmt.executeQuery("SELECT * FROM adminlist");
+            rs.beforeFirst();
+            while (rs.next()) {
+
+                //checks if the username and passwordentries match with any of the information in the database
+                if (user.equals(rs.getString("username")) && pass.equals(rs.getString("password"))) {
+                    loggedIn = true;
+
+                    break;
+
+                } else {
+                    loggedIn = false;
+
+                }
+            }
+
+            //if entries are wrong.
+            if (!loggedIn) {
+                System.out.println("\n\nWrong Username or Password.");
+            }
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            //shows error if unsuccessful
+            Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+
+        //return logged in
+        if (loggedIn) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    void changePassword(String username, String newPass) {
+
+        //database configuration to update the password for the admin on database
+        try {
+            //uses prepared statement to update the password
+            PreparedStatement stmt = adminCon().prepareStatement("UPDATE adminlist SET password = ? WHERE username = ?");
+            stmt.setString(1, newPass);
+
+            stmt.setString(2, username);
+
+            stmt.executeUpdate();
+            System.out.println("Succesfully Changed.");
+            stmt.close();
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            //shows error if unsuccessful
+            Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    void addAdmin(String newUsername, String newPass) {
+        try {
+            //inserts a new admin using prepared statements
+            PreparedStatement stmt = adminCon().prepareStatement("INSERT INTO adminList (username, password) VALUES (?, ?)");
+            stmt.setString(1, newUsername);
+            stmt.setString(2, newPass);
+            stmt.execute();
+            System.out.println("Succesfully Added.");
+            stmt.close();
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            //shows error if unsuccessful
+            Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    void getAdminList() {
+        String user;
+        //configues the database connection to show all the available admins
+        try {
+            Statement stmt = adminCon().createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM adminlist");
+            while (rs.next()) {
+
+                user = rs.getString("username");
+                System.out.println("Username: " + user);
+                System.out.println("");
+
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            //shows error if unsuccessful
+            Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    void deleteAdmin(String user) {
+        //configures the database connection to delete and admin
+        try {
+            //deletes the admin using prepared statement
+            PreparedStatement stmt = adminCon().prepareStatement("DELETE FROM adminList WHERE username = ?");
+                stmt.setString(1, user);
+            stmt.execute();
+            System.out.println("Succesfully deleted.");
+            stmt.close();
+
+        } catch (ClassNotFoundException | SQLException ex) {
+
+            //shows error if unsuccessful
+            Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }
