@@ -19,6 +19,7 @@ public class admin {
     //declaring the variables username and password for admin
     public static String username;
     public static String password;
+    dataBaseCon db = new dataBaseCon();
 
     Scanner input = new Scanner(System.in);
 
@@ -48,7 +49,7 @@ public class admin {
 
         return password;
     }
-    
+
     Connection adminCon() throws ClassNotFoundException {
 
         Connection con = null;
@@ -64,6 +65,7 @@ public class admin {
     //checkAdmin method checks if the admin username and password entries are in the database
     public Boolean checkAdmin() {
         boolean loggedIn = false;
+        boolean overTried = false;
         int tryTimes = 0;
         do {
 
@@ -73,37 +75,12 @@ public class admin {
             setUsername();
             setPassword();
 
-            try {
-                //uses prepared statement to select all the admins from adminlist table and check if any of them match with the user entries
-                Statement stmt = adminCon().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-                        ResultSet.CONCUR_READ_ONLY);
-                ResultSet rs = stmt.executeQuery("SELECT * FROM adminlist");
-                rs.beforeFirst();
-                while (rs.next()) {
-
-                    //checks if the username and passwordentries match with any of the information in the database
-                    if (getUsername().equals(rs.getString("username")) && getPassword().equals(rs.getString("password"))) {
-
-                        loggedIn = true;
-                        break;
-
-                    } else {
-
-                        loggedIn = false;
-
-                    }
-                }
-                //returns incorrect username or password if it doesn't match and promts for reentry
-                if (!loggedIn) {
-                    System.out.println("\n\n");
-                    System.out.println("incorrect username or password");
-                }
-
-            } catch (ClassNotFoundException | SQLException ex) {
-                //shows error if unsuccessful
-                Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
-
+            if (db.checkAdmin(getUsername(), getPassword())) {
+                loggedIn = true;
+            } else {
+                loggedIn = false;
             }
+
         } while (loggedIn == false && tryTimes < 3); //if the unsuccesful entries are more than 3, it ends the program
 
         //if logged in return true
@@ -159,22 +136,7 @@ public class admin {
                     newPassesMatched = true;
                     String newPassword = userFirstEntry;
 
-                    //database configuration to update the password for the admin on database
-                    try {
-                        //uses prepared statement to update the password
-                        PreparedStatement stmt = adminCon().prepareStatement("UPDATE adminlist SET password = ? WHERE username = ?");
-                        stmt.setString(1, newPassword);
-
-                        stmt.setString(2, getUsername());
-
-                        stmt.executeUpdate();
-                        System.out.println("Succesfully Changed.");
-                        stmt.close();
-
-                    } catch (ClassNotFoundException | SQLException ex) {
-                        //shows error if unsuccessful
-                        Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    db.changePassword(getUsername(), newPassword);
 
                 } else {
                     //shows the message below if the new password entries don't match
@@ -206,19 +168,7 @@ public class admin {
             if (newAdminFirstPasswordEntry.equals(newAdminSecondPasswordEntry)) {
                 matched = true;
                 String newAdminPassword = newAdminFirstPasswordEntry;
-                try {
-                    //inserts a new admin using prepared statements
-                    PreparedStatement stmt = adminCon().prepareStatement("INSERT INTO adminList (username, password) VALUES (?, ?)");
-                    stmt.setString(1, newAdminUserName);
-                    stmt.setString(2, newAdminPassword);
-                    stmt.execute();
-                    System.out.println("Succesfully Added.");
-                    stmt.close();
-
-                } catch (ClassNotFoundException | SQLException ex) {
-                    //shows error if unsuccessful
-                    Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                db.addAdmin(newAdminUserName, newAdminPassword);
             } else {
                 //shows the message if the two entries don't match
                 matched = false;
@@ -231,22 +181,7 @@ public class admin {
     //method to show all the current admins
     public void getAdminList() {
         System.out.println("Here is the list of current admins:\n");
-        String user;
-        //configues the database connection to show all the available admins
-        try {
-            Statement stmt = adminCon().createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM adminlist");
-            while (rs.next()) {
-
-                user = rs.getString("username");
-                System.out.println("Username: " + user);
-                System.out.println("");
-
-            }
-        } catch (ClassNotFoundException | SQLException ex) {
-            //shows error if unsuccessful
-            Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        db.getAdminList();
 
     }
 
@@ -267,20 +202,7 @@ public class admin {
                 matched = true;
                 String deletedUsername = deletedUsernameFirstEntry;
 
-                //configures the database connection to delete and admin
-                try {
-                    //deletes the admin using prepared statement
-                    PreparedStatement stmt = adminCon().prepareStatement("DELETE FROM adminList WHERE username = ?");
-                    stmt.setString(1, deletedUsername);
-                    stmt.execute();
-                    System.out.println("Succesfully deleted.");
-                    stmt.close();
-
-                } catch (ClassNotFoundException | SQLException ex) {
-
-                    //shows error if unsuccessful
-                    Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                db.deleteAdmin(deletedUsername);
             } else {
 
                 //shows the message if the two admin entries don't match

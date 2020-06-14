@@ -19,13 +19,14 @@ public class studentEngine {
     student newStudent = new student();
 
     public void operations() {
-        
+
         //variable contin to see if the user wants to continue
         String contin = "yes";
         do {
             System.out.println("\n\n");
             //promting the user to choose between 3 options available for student side.
-            System.out.println("What would you like to do?\n\n1-See the list of current clubs\n---------------------\n2-Become a member to a club\n---------------------\n3-See club posts");
+            System.out.println("What would you like to do?\n\n1-See the list of current clubs\n---------------------\n2-Become a member to a club\n---------------------\n"
+                    + "3-See club posts\n---------------------\n4-Quit");
             int userAction = input.nextInt();
 
             switch (userAction) {
@@ -38,7 +39,7 @@ public class studentEngine {
 
                 //Showing the available clubs and asking the user information and desired club to be added to
                 case 2:
-                   
+
                     Club.getClubData();
 
                     //the club id is asked to increase the size of the club as the member gets added
@@ -81,6 +82,13 @@ public class studentEngine {
                     //displaying the newsletter
                     Club.getPosts(selectedClubNameForPostDisplay);
                     break;
+
+                case 4:
+
+                    System.out.println("\n\nSuccessfully quited");
+                    System.exit(0);
+                    break;
+
             }
             //asking the user if they would like to continue
             System.out.println("Would you like to continue");

@@ -36,20 +36,22 @@ public class adminEngine {
                 System.out.println("\n\n\n\n");
                 //promting user to choose if they want to adjust clubs or admins
                 System.out.println("What operation would you like to do?");
-                System.out.println("1-Club Related\n2-Admin Related");
+                System.out.println("1-Club Related\n---------------------\n2-Admin Related\n---------------------\n3-Quit");
                 int userOperationChoice = input.nextInt();
                 //if clubs runs the code 
                 if (userOperationChoice == 1) {
                     System.out.println("\n\n\n\n");
                     System.out.println("What type of data you would like to work on?");
-                    System.out.println("1-Club Information Related\n---------------------\n2-Club Members Related\n---------------------\n3-Club Posts Related");
+                    System.out.println("1-Club Information Related\n---------------------\n2-Club Members Related\n---------------------\n"
+                            + "3-Club Posts Related\n---------------------\n4-Quit");
                     int userClubRelatedOperationChoice = input.nextInt();
 
                     if (userClubRelatedOperationChoice == 1) {
                         System.out.println("\n\n\n\n");
                         //prompts the user to choose between 4 options
                         System.out.println("Choose an option:");
-                        System.out.println("1-Insert a new Club\n---------------------\n2-Get the list of current clubs\n---------------------\n3-Update a club\n---------------------\n4-Delete a club");
+                        System.out.println("1-Insert a new Club\n---------------------\n2-Get the list of current clubs\n---------------------\n"
+                                + "3-Update a club\n---------------------\n4-Delete a club\n---------------------\n5-Quit");
                         int userClubInformationAction = input.nextInt();
 
                         switch (userClubInformationAction) {
@@ -176,13 +178,19 @@ public class adminEngine {
                                     }
                                 }
                                 break;
+
+                            case 5:
+                                System.out.println("\n\nSuccessfully quited");
+                                System.exit(0);
+                                break;
                         }
                     } //if the admin chooses the member option
                     else if (userClubRelatedOperationChoice == 2) {
                         System.out.println("\n\n\n\n");
                         //prompts the user to choose between 1 options
                         System.out.println("Choose an option:");
-                        System.out.println("1-Get the member list for a club\n---------------------\n2-Add a member to a Club\n---------------------\n3-Delete a member from a club");
+                        System.out.println("1-Get the member list for a club\n---------------------\n2-Add a member to a Club\n---------------------\n"
+                                + "3-Delete a member from a club\n---------------------\n4-Quit");
                         int userMembersAction = input.nextInt();
 
                         switch (userMembersAction) {
@@ -253,6 +261,11 @@ public class adminEngine {
                                 newStudent.deleteMember(clubDeleteMemberName, DeletestudentNum);
 
                                 Club.memberRemoved(clubDeleteMemberId);
+                                break;
+                            case 4:
+                                System.out.println("\n\nSuccessfully quited");
+                                System.exit(0);
+                                break;
 
                         }
                     } //if the admin chooses the posts option
@@ -260,7 +273,8 @@ public class adminEngine {
                         System.out.println("\n\n\n\n");
                         //prompts the user to choose between 2 options
                         System.out.println("Choose an option:");
-                        System.out.println("1-See the posts for a specific clubs\n---------------------\n2-Add a post\n---------------------\n3-Delete a post");
+                        System.out.println("1-See the posts for a specific clubs\n---------------------\n2-Add a post\n---------------------\n"
+                                + "3-Delete a post\n---------------------\n4-Quit");
                         int userPostsAction = input.nextInt();
 
                         switch (userPostsAction) {
@@ -305,17 +319,25 @@ public class adminEngine {
 
                                 //shows the posts of the club
                                 Club.getPostsWithId(selectedClubNameForPostDelete);
-                                
+
                                 System.out.println("Enter the id of the posts you would like to delete:");
                                 int deletePostId = input.nextInt();
-                                
-                                
+
                                 Club.deletePost(selectedClubNameForPostDelete, deletePostId);
-                                
 
                                 break;
 
+                            case 4:
+                                System.out.println("\n\nSuccessfully quited");
+                                System.exit(0);
+                                break;
+
                         }
+                    } else if (userClubRelatedOperationChoice == 4) {
+
+                        System.out.println("\n\nSuccessfully quited");
+                        System.exit(0);
+                        
                     }
 
                 } //if the admin chooses to adjust admins
@@ -323,7 +345,7 @@ public class adminEngine {
                     System.out.println("\n\n\n\n");
                     //promts the admin to choose between 3 options
                     System.out.println("Choose an option:");
-                    System.out.println("1-Change Password\n2-Add a new admin\n3-Delete an admin");
+                    System.out.println("1-Change Password\n---------------------\n2-Add a new admin\n---------------------\n3-Delete an admin\n---------------------\n4-Quit");
                     int userAdminAction = input.nextInt();
                     input.nextLine();
                     switch (userAdminAction) {
@@ -354,7 +376,16 @@ public class adminEngine {
                             Admin.deleteAdmin();
                             break;
 
+                        case 4:
+                            System.out.println("\n\nSuccessfully quited");
+                            System.exit(0);
+                            break;
+
                     }
+                } else if (userOperationChoice == 3) {
+                    System.out.println("\n\nSuccessfully quited");
+                    System.exit(0);
+
                 }
 
                 System.out.println("Would you like to continue");
