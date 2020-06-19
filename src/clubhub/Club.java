@@ -1,8 +1,8 @@
 package clubhub;
 
-public class club {
+public class Club {
     
-    //decalres the variables for club class
+    //decalres the variables for Club class
     private static int clubId;
     private static String clubName;
     private static int clubSize;
@@ -12,9 +12,9 @@ public class club {
     private static String postDate;
     private static int postId;
 
-    dataBaseCon db = new dataBaseCon();
+    DataBaseCon db = new DataBaseCon();
     
-    //method to add a club 
+    //method to add a Club 
     public void addClub(String name, int size, String manager, String location) {
 
         clubName = name;
@@ -22,7 +22,7 @@ public class club {
         clubManager = manager;
         clubLocation = location;
         
-        //calls the db object to insert a new club
+        //calls the db object to insert a new Club
         db.insertData(clubName, clubSize, clubManager, clubLocation);
 
     }
@@ -30,31 +30,31 @@ public class club {
     //method to get the list of all the current clubs
     public void getClubData() {
          System.out.println("Here is the list of current clubs:\n");
-        //calls the db object to get the club list
+        //calls the db object to get the Club list
         db.getData();
     }
     
-    //method to change the name of a club
+    //method to change the name of a Club
     public String changeName(int currentId, String newName) {
 
         clubName = newName;
-        //calls the db object to update the club name
+        //calls the db object to update the Club name
         db.updateDataName(currentId, newName);
         return clubName;
 
     }
     
-    //method to change the size of the club
+    //method to change the size of the Club
     public int changeSize(int currentId, int newSize) {
 
         clubSize = newSize;
-        //calls the db object to change the size of a club
+        //calls the db object to change the size of a Club
         db.updateDataSize(currentId, newSize);
         return clubSize;
 
     }
     
-    //method to change the name of the manager of a club
+    //method to change the name of the manager of a Club
     public String changeManager(int currentId, String newManager) {
 
         clubManager = newManager;
@@ -63,7 +63,7 @@ public class club {
         return clubManager;
 
     }
-    //method to change the name of the location of a club
+    //method to change the name of the location of a Club
     public String changeLocation(int currentId, String newLocation) {
 
         clubLocation = newLocation;
@@ -73,46 +73,46 @@ public class club {
 
     }
     
-    //method to delete a club
+    //method to delete a Club
     public void deleteClub(int id) {
 
         clubId = id;
-        //calls db to delete table for each club
+        //calls db to delete table for each Club
         db.deleteClub(id);
 
     }
     
-    //method to create a seperate table for each club in order to keep the records of their members
+    //method to create a seperate table for each Club in order to keep the records of their members
     public void createClubTable(String name) {
 
         clubName = name;
-        //calls db to create a member table for each club
+        //calls db to create a member table for each Club
         db.createTable(clubName);
 
     }
-    //method to create a seperate table for each club in order to keep the records of their posts
+    //method to create a seperate table for each Club in order to keep the records of their posts
     public void createClubTableForPosts(String name) {
 
         clubName = name;
-        //calls db to create a post table for each club
+        //calls db to create a post table for each Club
         db.createTableForPosts(clubName);
 
     }
     
-    //method to delete the club table both member and post tables
+    //method to delete the Club table both member and post tables
     public void deleteClubTable(String name) {
 
         clubName = name;
-        //calls db to delete tables for each club 
+        //calls db to delete tables for each Club 
         db.deleteTable(clubName);
 
     }
     
-    //method to increae the size of a club when a member gets added
+    //method to increae the size of a Club when a member gets added
     public void memberAdded(int id) {
 
         clubId = id;
-        //cals db object to update and increase the size of a club
+        //calls db object to update and increase the size of a Club
         db.memberIncreased(clubId);
 
     }
@@ -120,51 +120,51 @@ public class club {
     public void memberRemoved(int id) {
 
         clubId = id;
-        //cals db object to update and increase the size of a club
+        //calls db object to update and increase the size of a Club
         db.memberDecreased(clubId);
 
     }
     
-    //method to get the list of members for a specific club
+    //method to get the list of members for a specific Club
     public void memberList(String cName) {
         System.out.println("Here is the list of members:\n\n");
         clubName = cName;
-        //cals db object to add a new member
+        //calls db object to add a new member
         db.getMemberList(clubName);
     }
     
-    //method to add a post to a club's post table
+    //method to add a post to a Club's post table
     public void addPost(String cName, String cPost, String pDate){
         
         clubName = cName;
         clubPost = cPost;
         postDate = pDate;
-        //cals db object to insert a post
+        //calls db object to insert a post
         db.addNewPost(clubName, clubPost, postDate);
         
     }
     
-     //method to add a post to a club's post table
+     //method to add a post to a Club's post table
     public void deletePost(String cName, int pId){
         
         clubName = cName;
         postId= pId;
-        //cals db object to insert a post
+        //calls db object to insert a post
         db.deletePost(clubName, postId);
         
     }
-    //method the get posts of a club
+    //method the get posts of a Club
     public void getPosts(String cName){
         System.out.println("Here is the list of posts:\n\n");
         clubName = cName;
-        //cals db object to get the posts in order of their dates(latest to oldest)
+        //calls db object to get the posts in order of their dates(latest to oldest)
         db.getPostsFromDataBase(clubName);
     }
     
     public void getPostsWithId(String cName){
         System.out.println("Here is the list of posts:\n\n");
         clubName = cName;
-        //cals db object to get the posts in order of their dates(latest to oldest)
+        //calls db object to get the posts in order of their dates(latest to oldest)
         db.getPostsWithIdFromDataBase(clubName);
     }
 
