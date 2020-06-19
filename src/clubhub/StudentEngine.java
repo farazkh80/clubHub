@@ -11,12 +11,12 @@ import java.util.Scanner;
  *
  * @author Faraz Khoubsirat
  */
-public class studentEngine {
+public class StudentEngine {
 
-    //decalring the club, and student objects.
+    //decalring the Club, and Student objects.
     Scanner input = new Scanner(System.in);
-    club Club = new club();
-    student newStudent = new student();
+    Club club = new Club();
+    Student newStudent = new Student();
 
     public void operations() {
 
@@ -24,7 +24,7 @@ public class studentEngine {
         String contin = "yes";
         do {
             System.out.println("\n\n");
-            //promting the user to choose between 3 options available for student side.
+            //promting the user to choose between 3 options available for Student side.
             System.out.println("What would you like to do?\n\n1-See the list of current clubs\n---------------------\n2-Become a member to a club\n---------------------\n"
                     + "3-See club posts\n---------------------\n4-Quit");
             int userAction = input.nextInt();
@@ -34,19 +34,19 @@ public class studentEngine {
                 //Getting and showing the list of current available clubs on the system
                 case 1:
 
-                    Club.getClubData();
+                    club.getClubData();
                     break;
 
-                //Showing the available clubs and asking the user information and desired club to be added to
+                //Showing the available clubs and asking the user information and desired Club to be added to
                 case 2:
 
-                    Club.getClubData();
+                    club.getClubData();
 
-                    //the club id is asked to increase the size of the club as the member gets added
+                    //the Club id is asked to increase the size of the Club as the member gets added
                     System.out.println("\n\nEnter the id of the club you would like to join:");
                     int clubJoinId = input.nextInt();
 
-                    //the club name is asked to add the student as a new member to the club.
+                    //the Club name is asked to add the Student as a new member to the Club.
                     input.nextLine();
                     System.out.println("Enter the name of the club you would like to join:");
                     String clubJoinName = input.nextLine();
@@ -61,28 +61,29 @@ public class studentEngine {
                     System.out.println("What is your student Number:");
                     int studentNum = input.nextInt();
 
-                    //adds the student to the club
+                    //adds the Student to the Club
                     newStudent.addMember(clubJoinName, fname, lname, grade, studentNum);
 
-                    //increase the club size as the member gets added.
-                    Club.memberAdded(clubJoinId);
+                    //increase the Club size as the member gets added.
+                    club.memberAdded(clubJoinId);
 
                     break;
 
-                //showing a specific club newsletter(page) with the latest posts
+                //showing a specific Club newsletter(page) with the latest posts
                 case 3:
                     //showing all the available clubs for the user
-                    Club.getClubData();
+                    club.getClubData();
 
-                    //asking the user to choose the club they want to see the newsletter of
+                    //asking the user to choose the Club they want to see the newsletter of
                     input.nextLine();
                     System.out.println("What club would you like to see the post of?(enter the name)");
                     String selectedClubNameForPostDisplay = input.nextLine();
 
                     //displaying the newsletter
-                    Club.getPosts(selectedClubNameForPostDisplay);
+                    club.getPosts(selectedClubNameForPostDisplay);
                     break;
-
+                
+                //if quit
                 case 4:
 
                     System.out.println("\n\nSuccessfully quited");

@@ -11,19 +11,19 @@ import java.util.Scanner;
  *
  * @author Faraz Khoubsirat
  */
-public class adminEngine {
+public class AdminEngine {
 
     //decalring the objects
-    admin Admin = new admin();
+    Admin admin = new Admin();
     Scanner input = new Scanner(System.in);
-    club Club = new club();
-    student newStudent = new student();
+    Club club = new Club();
+    Student newStudent = new Student();
 
-    //method to handle admin opreations
+    //method to handle Admin opreations
     public void operations() {
 
-        //if admin login is successful runs the code
-        if (Admin.checkAdmin()) {
+        //if Admin login is successful runs the code
+        if (admin.checkAdmin()) {
 
             //decalaring the variables
             int id;
@@ -56,10 +56,10 @@ public class adminEngine {
 
                         switch (userClubInformationAction) {
 
-                            //if admin chooses to insert a club
+                            //if Admin chooses to insert a Club
                             case 1:
 
-                                //gets the inforamtion for the new club
+                                //gets the inforamtion for the new Club
                                 input.nextLine();
                                 System.out.println("Enter the Club Name: ");
                                 name = input.nextLine();
@@ -74,26 +74,26 @@ public class adminEngine {
                                 System.out.println("Enter the club Location");
                                 location = input.nextLine();
 
-                                //calls the club object to add a new club, create a member table and a post table for the club name
-                                Club.addClub(name, size, manager, location);
-                                Club.createClubTable(name);
-                                Club.createClubTableForPosts(name);
+                                //calls the Club object to add a new Club, create a member table and a post table for the Club name
+                                club.addClub(name, size, manager, location);
+                                club.createClubTable(name);
+                                club.createClubTableForPosts(name);
 
                                 break;
 
-                            //if admin chooses to get the club list
+                            //if Admin chooses to get the Club list
                             case 2:
 
-                                //calls the club object to get the current club list
-                                Club.getClubData();
+                                //calls the Club object to get the current Club list
+                                club.getClubData();
                                 break;
 
-                            //if admin chooses to update a club information
+                            //if Admin chooses to update a Club information
                             case 3:
-                                //shows the club list first
+                                //shows the Club list first
                                 System.out.println("See the list of clubs first");
-                                Club.getClubData();
-                                //promts the admin for the id of the desired club
+                                club.getClubData();
+                                //promts the Admin for the id of the desired Club
                                 System.out.print("Enter the id of the club you would like to update: ");
                                 id = input.nextInt();
 
@@ -103,58 +103,58 @@ public class adminEngine {
                                 int userUpdateChoice = input.nextInt();
                                 switch (userUpdateChoice) {
 
-                                    //if it is to change the name of the club
+                                    //if it is to change the name of the Club
                                     case 1:
                                         //promts the user for the new name
                                         input.nextLine();
                                         System.out.println("Enter the new NAME: ");
                                         name = input.nextLine();
-                                        //calls the club obj to change the name
-                                        Club.changeName(id, name);
+                                        //calls the Club obj to change the name
+                                        club.changeName(id, name);
                                         break;
 
-                                    //if it is to change the size of the club
+                                    //if it is to change the size of the Club
                                     case 2:
                                         //promts the user for the new size
                                         input.nextLine();
                                         System.out.println("Enter the new SIZE: ");
                                         size = input.nextInt();
-                                        //calls the club obj to change the size
-                                        Club.changeSize(id, size);
+                                        //calls the Club obj to change the size
+                                        club.changeSize(id, size);
                                         break;
 
-                                    //if it is to change the manager of the club
+                                    //if it is to change the manager of the Club
                                     case 3:
                                         //promts the user for the new manager
                                         input.nextLine();
                                         System.out.println("Enter the new MANAGER: ");
                                         manager = input.nextLine();
-                                        //calls the club obj to change the manager
-                                        Club.changeManager(id, manager);
+                                        //calls the Club obj to change the manager
+                                        club.changeManager(id, manager);
                                         break;
 
-                                    //if it is to change the location of the club
+                                    //if it is to change the location of the Club
                                     case 4:
                                         //promts the user for the new location
                                         input.nextLine();
                                         System.out.println("Enter the new Location: ");
                                         location = input.nextLine();
-                                        //calls the club obj to change the location
-                                        Club.changeLocation(id, location);
+                                        //calls the Club obj to change the location
+                                        club.changeLocation(id, location);
                                         break;
 
                                 }
                                 break;
 
-                            //if admin chooses to delete a club
+                            //if Admin chooses to delete a Club
                             case 4:
-                                //shows the current club list first
-                                Club.getClubData();
+                                //shows the current Club list first
+                                club.getClubData();
 
-                                //prompts the admin for the id of the desired club
+                                //prompts the Admin for the id of the desired Club
                                 System.out.println("What is the id of the club you would like to delete?");
                                 int userIdEntry = input.nextInt();
-                                //prompts the admin for the id of the desired club again
+                                //prompts the Admin for the id of the desired Club again
                                 input.nextLine();
                                 System.out.println("What is the name of the club you would like to delete?");
                                 String userNameEntry = input.nextLine();
@@ -164,13 +164,13 @@ public class adminEngine {
                                 //if yes runs the code
                                 if (userAnswer.equalsIgnoreCase("yes")) {
 
-                                    if (Admin.checkPassword()) {
+                                    if (admin.checkPassword()) {
 
-                                        //calls the club object to delete the club from club list using its id
-                                        Club.deleteClub(userIdEntry);
+                                        //calls the Club object to delete the Club from Club list using its id
+                                        club.deleteClub(userIdEntry);
 
-                                        //calls the club object to delete the member and posts tables for the club using its name
-                                        Club.deleteClubTable(userNameEntry);
+                                        //calls the Club object to delete the member and posts tables for the Club using its name
+                                        club.deleteClubTable(userNameEntry);
                                     } else {
                                         //if no shows failed message
                                         System.out.println("failed to delete");
@@ -184,7 +184,7 @@ public class adminEngine {
                                 System.exit(0);
                                 break;
                         }
-                    } //if the admin chooses the member option
+                    } //if the Admin chooses the member option
                     else if (userClubRelatedOperationChoice == 2) {
                         System.out.println("\n\n\n\n");
                         //prompts the user to choose between 1 options
@@ -195,28 +195,28 @@ public class adminEngine {
 
                         switch (userMembersAction) {
 
-                            //if the admin chooses to see the current list of members for a specific club
+                            //if the Admin chooses to see the current list of members for a specific Club
                             case 1:
                                 //shows the current list of clubs
-                                Club.getClubData();
-                                //prmots the admin to enter the name od desired club
+                                club.getClubData();
+                                //prmots the Admin to enter the name od desired Club
                                 input.nextLine();
                                 System.out.println("Enter the name of the club you would like to get the list of.");
                                 String selectedClubName = input.nextLine();
 
-                                //calls the club object the get the list of members
-                                Club.memberList(selectedClubName);
+                                //calls the Club object the get the list of members
+                                club.memberList(selectedClubName);
                                 break;
-
+                            //if the Admin chooses to add a member for a specific Club
                             case 2:
 
-                                Club.getClubData();
+                                club.getClubData();
 
-                                //the club id is asked to increase the size of the club as the member gets added
+                                //the Club id is asked to increase the size of the Club as the member gets added
                                 System.out.println("\n\nEnter the id of the club you would like to add the student to:");
                                 int clubJoinMemberId = input.nextInt();
 
-                                //the club name is asked to add the student as a new member to the club.
+                                //the Club name is asked to add the Student as a new member to the Club.
                                 input.nextLine();
                                 System.out.println("Enter the name of the club you would like to add the student to:");
                                 String clubJoinMemberName = input.nextLine();
@@ -231,44 +231,46 @@ public class adminEngine {
                                 System.out.println("What is his/her student Number:");
                                 int studentNum = input.nextInt();
 
-                                //adds the student to the club
+                                //adds the Student to the Club
                                 newStudent.addMember(clubJoinMemberName, fname, lname, grade, studentNum);
 
-                                //increase the club size as the member gets added.
-                                Club.memberAdded(clubJoinMemberId);
+                                //increase the Club size as the member gets added.
+                                club.memberAdded(clubJoinMemberId);
 
                                 break;
-
+                            
+                             //if the Admin chooses to add a member for a specific Club
                             case 3:
 
-                                Club.getClubData();
+                                club.getClubData();
 
-                                //the club id is asked to increase the size of the club as the member gets added
+                                //the Club id is asked to increase the size of the Club as the member gets added
                                 System.out.println("\n\nEnter the id of the club you would like to add the student to:");
                                 int clubDeleteMemberId = input.nextInt();
 
-                                //the club name is asked to add the student as a new member to the club.
+                                //the Club name is asked to add the Student as a new member to the Club.
                                 input.nextLine();
-                                System.out.println("Enter the name of the club you would like to add the student to:");
+                                System.out.println("Enter the name of the club you would like to delete the student from:");
                                 String clubDeleteMemberName = input.nextLine();
 
-                                //calls the club object the get the list of members
-                                Club.memberList(clubDeleteMemberName);
+                                //calls the Club object the get the list of members
+                                club.memberList(clubDeleteMemberName);
 
                                 System.out.println("What is his/her student Number:");
                                 int DeletestudentNum = input.nextInt();
 
                                 newStudent.deleteMember(clubDeleteMemberName, DeletestudentNum);
 
-                                Club.memberRemoved(clubDeleteMemberId);
+                                club.memberRemoved(clubDeleteMemberId);
                                 break;
+                            //if quits
                             case 4:
                                 System.out.println("\n\nSuccessfully quited");
                                 System.exit(0);
                                 break;
 
                         }
-                    } //if the admin chooses the posts option
+                    } //if the Admin chooses the posts option
                     else if (userClubRelatedOperationChoice == 3) {
                         System.out.println("\n\n\n\n");
                         //prompts the user to choose between 2 options
@@ -278,61 +280,62 @@ public class adminEngine {
                         int userPostsAction = input.nextInt();
 
                         switch (userPostsAction) {
-                            //if admin chooses to see the posts for a specific club
+                            //if Admin chooses to see the posts for a specific Club
                             case 1:
                                 //shows the current list of clubs
-                                Club.getClubData();
-                                //prmots the admin to enter the name od desired club
+                                club.getClubData();
+                                //prmots the Admin to enter the name od desired Club
                                 input.nextLine();
                                 System.out.println("What club would you like to see the post of?(enter the name)");
                                 String selectedClubNameForPostDisplay = input.nextLine();
-                                //calls the club object the get the list of posts
-                                Club.getPosts(selectedClubNameForPostDisplay);
+                                //calls the Club object the get the list of posts
+                                club.getPosts(selectedClubNameForPostDisplay);
                                 break;
 
-                            //if the admin chooses to insert a new post
+                            //if the Admin chooses to insert a new post
                             case 2:
                                 //shows the current list of clubs
-                                Club.getClubData();
-                                //prmots the admin to enter the name od desired club
+                                club.getClubData();
+                                //prmots the Admin to enter the name od desired Club
                                 input.nextLine();
                                 System.out.println("What club would you like to add the post to?(enter the name)");
                                 String selectedClubNameForPostEntry = input.nextLine();
-                                //promts the admin to insert the post and date of posting
+                                //promts the Admin to insert the post and date of posting
                                 System.out.println("Please Enter the post:");
                                 String postEntery = input.nextLine();
                                 System.out.println("Please enter today's date (YYYY-MM-DD):");
                                 String dateEntery = input.nextLine();
 
-                                //calls the club object to insert the post
-                                Club.addPost(selectedClubNameForPostEntry, postEntery, dateEntery);
+                                //calls the Club object to insert the post
+                                club.addPost(selectedClubNameForPostEntry, postEntery, dateEntery);
                                 break;
 
-                            //if the admin chooses to insert a new post
+                            //if the Admin chooses to insert a new post
                             case 3:
                                 //shows the current list of clubs
-                                Club.getClubData();
-                                //prmots the admin to enter the name od desired club
+                                club.getClubData();
+                                //prmots the Admin to enter the name od desired Club
                                 input.nextLine();
                                 System.out.println("What club would you like to delete the posts from?(enter the name)");
                                 String selectedClubNameForPostDelete = input.nextLine();
 
-                                //shows the posts of the club
-                                Club.getPostsWithId(selectedClubNameForPostDelete);
+                                //shows the posts of the Club
+                                club.getPostsWithId(selectedClubNameForPostDelete);
 
                                 System.out.println("Enter the id of the posts you would like to delete:");
                                 int deletePostId = input.nextInt();
 
-                                Club.deletePost(selectedClubNameForPostDelete, deletePostId);
+                                club.deletePost(selectedClubNameForPostDelete, deletePostId);
 
                                 break;
-
+                            //if quit
                             case 4:
                                 System.out.println("\n\nSuccessfully quited");
                                 System.exit(0);
                                 break;
 
                         }
+                     //if quit
                     } else if (userClubRelatedOperationChoice == 4) {
 
                         System.out.println("\n\nSuccessfully quited");
@@ -340,48 +343,50 @@ public class adminEngine {
                         
                     }
 
-                } //if the admin chooses to adjust admins
+                } //if the Admin chooses to adjust admins
                 else if (userOperationChoice == 2) {
                     System.out.println("\n\n\n\n");
-                    //promts the admin to choose between 3 options
+                    //promts the Admin to choose between 3 options
                     System.out.println("Choose an option:");
                     System.out.println("1-Change Password\n---------------------\n2-Add a new admin\n---------------------\n3-Delete an admin\n---------------------\n4-Quit");
                     int userAdminAction = input.nextInt();
                     input.nextLine();
                     switch (userAdminAction) {
 
-                        //if the admin chooses to change the password
+                        //if the Admin chooses to change the password
                         case 1:
 
-                            //calls the admin object to change the pass
-                            Admin.changePassword();
+                            //calls the Admin object to change the pass
+                            admin.changePassword();
 
                             break;
 
-                        //if the admin chooses to add a new admin
+                        //if the Admin chooses to add a new Admin
                         case 2:
-                            //calls the admin object to show the current list of admins
-                            Admin.getAdminList();
+                            //calls the Admin object to show the current list of admins
+                            admin.getAdminList();
 
-                            //calls the admin object to insert a new admin
-                            Admin.addAdmin();
+                            //calls the Admin object to insert a new Admin
+                            admin.addAdmin();
                             break;
 
-                        //if the admin chooses to delete a admin
+                        //if the Admin chooses to delete a Admin
                         case 3:
-                            //calls the admin object to show the current list of admins
-                            Admin.getAdminList();
+                            //calls the Admin object to show the current list of admins
+                            admin.getAdminList();
 
-                            //calls the admin object to delete an admin
-                            Admin.deleteAdmin();
+                            //calls the Admin object to delete an Admin
+                            admin.deleteAdmin();
                             break;
-
+                        
+                        //if quit
                         case 4:
                             System.out.println("\n\nSuccessfully quited");
                             System.exit(0);
                             break;
 
                     }
+                //if quit
                 } else if (userOperationChoice == 3) {
                     System.out.println("\n\nSuccessfully quited");
                     System.exit(0);

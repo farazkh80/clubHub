@@ -2,10 +2,7 @@ package clubhub;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,23 +11,23 @@ import java.util.logging.Logger;
  *
  * @author Faraz Khoubsirat
  */
-public class admin {
+public class Admin {
 
-    //declaring the variables username and password for admin
+    //declaring the variables username and password for Admin
     public static String username;
     public static String password;
-    dataBaseCon db = new dataBaseCon();
+    DataBaseCon db = new DataBaseCon();
 
     Scanner input = new Scanner(System.in);
 
-    //setUsername methods promts the admin to enter their username
+    //setUsername methods promts the Admin to enter their username
     public void setUsername() {
         System.out.println("Enter the Username");
         username = input.nextLine();
 
     }
 
-    //setPassword methods promts the admin to enter their password
+    //setPassword methods promts the Admin to enter their password
     public void setPassword() {
 
         System.out.println("Enter the Password");
@@ -57,12 +54,12 @@ public class admin {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin", "root", "Mypassword1234");
         } catch (SQLException ex) {
-            Logger.getLogger(dataBaseCon.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DataBaseCon.class.getName()).log(Level.SEVERE, null, ex);
         }
         return con;
     }
 
-    //checkAdmin method checks if the admin username and password entries are in the database
+    //checkAdmin method checks if the Admin username and password entries are in the database
     public Boolean checkAdmin() {
         boolean loggedIn = false;
         boolean overTried = false;
@@ -71,7 +68,7 @@ public class admin {
 
             tryTimes++;
 
-            //promts the admin for username and password
+            //promts the Admin for username and password
             setUsername();
             setPassword();
 
@@ -96,7 +93,7 @@ public class admin {
 
     }
 
-    //the method to check the password of the admin for security reasons
+    //the method to check the password of the Admin for security reasons
     public boolean checkPassword() {
         boolean currentPassMatched = true;
 
@@ -117,7 +114,7 @@ public class admin {
 
     }
 
-    //the method to change the admin's password
+    //the method to change the Admin's password
     public void changePassword() {
         //it checks the users identity using checkPassword() method.
         if (checkPassword()) {
@@ -148,23 +145,23 @@ public class admin {
         }
     }
 
-    //Adds an admin to the adminlist
+    //Adds an Admin to the adminlist
     public void addAdmin() {
 
         boolean matched = true;
 
-        //asks for a username for the admin
+        //asks for a username for the Admin
         System.out.println("Enter a username of the new admin:");
         String newAdminUserName = input.nextLine();
         do {
-            //promts the admin to choose a password for the new admin
+            //promts the Admin to choose a password for the new Admin
             System.out.println("Enter a password for " + newAdminUserName);
             String newAdminFirstPasswordEntry = input.nextLine();
-            //promts the admin to enter it again
+            //promts the Admin to enter it again
             System.out.println("Enter the password again for " + newAdminUserName);
             String newAdminSecondPasswordEntry = input.nextLine();
 
-            //if two entries matched, it configures the database connection to insert a new admin
+            //if two entries matched, it configures the database connection to insert a new Admin
             if (newAdminFirstPasswordEntry.equals(newAdminSecondPasswordEntry)) {
                 matched = true;
                 String newAdminPassword = newAdminFirstPasswordEntry;
@@ -205,7 +202,7 @@ public class admin {
                 db.deleteAdmin(deletedUsername);
             } else {
 
-                //shows the message if the two admin entries don't match
+                //shows the message if the two Admin entries don't match
                 System.out.println("Didn't match");
                 matched = false;
             }

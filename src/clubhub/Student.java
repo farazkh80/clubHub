@@ -9,16 +9,16 @@ package clubhub;
  *
  * @author Faraz Khoubsirat
  */
-public class student {
+public class Student {
     
     
-    //declaring varibales for student class
+    //declaring varibales for Student class
     private static String clubName;
     private static String studentFirstName;
     private static String studentLastName;
     private static int studentGrade;
     private static int studentNumber;
-    dataBaseCon db = new dataBaseCon();
+    DataBaseCon db = new DataBaseCon();
     
     //method to add a memeber
     public void addMember(String cName, String fname, String lname, int grade, int studentNum) {
@@ -33,7 +33,7 @@ public class student {
         db.addMember(clubName, studentFirstName, studentLastName, studentGrade, studentNumber);
 
     }
-    
+    //method to delete a memeber
     public void deleteMember(String cName, int studentNum){
         clubName = cName;
         studentNumber = studentNum;

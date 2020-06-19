@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  *
  * @author Faraz Khoubsirat
  */
-public class dataBaseCon {
+public class DataBaseCon {
 
     Connection clubsCon() throws ClassNotFoundException {
 
@@ -27,7 +27,7 @@ public class dataBaseCon {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubs", "root", "Mypassword1234");
         } catch (SQLException ex) {
-            Logger.getLogger(dataBaseCon.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DataBaseCon.class.getName()).log(Level.SEVERE, null, ex);
         }
         return con;
     }
@@ -39,7 +39,7 @@ public class dataBaseCon {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubposts", "root", "Mypassword1234");
         } catch (SQLException ex) {
-            Logger.getLogger(dataBaseCon.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DataBaseCon.class.getName()).log(Level.SEVERE, null, ex);
         }
         return con;
     }
@@ -51,17 +51,17 @@ public class dataBaseCon {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin", "root", "Mypassword1234");
         } catch (SQLException ex) {
-            Logger.getLogger(dataBaseCon.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DataBaseCon.class.getName()).log(Level.SEVERE, null, ex);
         }
         return con;
     }
 
-    //database configuration to insert a new club
+    //database configuration to insert a new Club
     void insertData(String clubName, int clubSize, String clubManager, String clubLocation) {
 
         try {
 
-            //using prepared statement to insert a new club
+            //using prepared statement to insert a new Club
             PreparedStatement stmt = clubsCon().prepareStatement("INSERT INTO clublist (name, size, manager, location) VALUES (?, ?, ?, ?)");
             stmt.setString(1, clubName);
             stmt.setInt(2, clubSize);
@@ -73,7 +73,7 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
             //shows error if unsuccessful
-            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Club.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -107,17 +107,17 @@ public class dataBaseCon {
             }
         } catch (ClassNotFoundException | SQLException ex) {
             //shows error if unsuccessful
-            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Club.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-    //database configuration to update a club's name
+    //database configuration to update a Club's name
     void updateDataName(int clubCurrentid, String clubNewName) {
 
         try {
 
-            //using prepared statement to update a club's name
+            //using prepared statement to update a Club's name
             PreparedStatement stmt = clubsCon().prepareStatement("UPDATE clublist SET name = ? WHERE id = ?");
 
             stmt.setString(1, clubNewName);
@@ -130,16 +130,16 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
             //shows error if unsuccessful
-            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Club.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    //database configuration to update a club's size
+    //database configuration to update a Club's size
     void updateDataSize(int clubCurrentid, int clubNewSize) {
 
         try {
 
-            //using prepared statement to update a club's size
+            //using prepared statement to update a Club's size
             PreparedStatement stmt = clubsCon().prepareStatement("UPDATE clublist SET size = ? WHERE id = ?");
 
             stmt.setInt(1, clubNewSize);
@@ -152,15 +152,15 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
             //shows error if unsuccessful
-            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Club.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    //database configuration to update a club's manager
+    //database configuration to update a Club's manager
     void updateDataManager(int clubCurrentid, String clubNewManager) {
 
         try {
-            //using prepared statement to update a club's manager
+            //using prepared statement to update a Club's manager
             PreparedStatement stmt = clubsCon().prepareStatement("UPDATE clublist SET manager = ? WHERE id = ?");
 
             stmt.setString(1, clubNewManager);
@@ -173,15 +173,15 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
             //shows error if unsuccessful
-            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Club.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    //database configuration to update a club's location
+    //database configuration to update a Club's location
     void updateDataLocation(int clubCurrentid, String clubNewLocation) {
 
         try {
-            //using prepared statement to update a club's location
+            //using prepared statement to update a Club's location
             PreparedStatement stmt = clubsCon().prepareStatement("UPDATE clublist SET location  = ? WHERE id = ?");
 
             stmt.setString(1, clubNewLocation);
@@ -194,15 +194,15 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
             //shows error if unsuccessful
-            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Club.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    //database configuration to create a table for the members of the club
+    //database configuration to create a table for the members of the Club
     void createTable(String tableName) {
 
         try {
-            //using prepared statement to create a table for the members of the club
+            //using prepared statement to create a table for the members of the Club
             PreparedStatement stmt = clubsCon().prepareStatement("CREATE TABLE `" + tableName + "` (id int(100) PRIMARY KEY AUTO_INCREMENT NOT NULL,  firstname varchar(100) NOT NULL, lastname varchar(100) not null, grade int not null, studentnumber int not null);");
 
             stmt.executeUpdate();
@@ -211,16 +211,16 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
             //shows error if unsuccessful
-            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Club.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-    //database configuration to create a table for the posts of the club
+    //database configuration to create a table for the posts of the Club
     void createTableForPosts(String tableName) {
 
         try {
-            //using prepared statement to create a table for the posts of the club
+            //using prepared statement to create a table for the posts of the Club
             PreparedStatement stmt = clubPostsCon().prepareStatement("CREATE TABLE `" + tableName + "` (id int(100) PRIMARY KEY AUTO_INCREMENT NOT NULL, post longtext not null, postdate DATE not null);");
 
             stmt.executeUpdate();
@@ -229,18 +229,18 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
             //shows error if unsuccessful
-            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Club.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-    //database configuration to delete a club information
+    //database configuration to delete a Club information
     void deleteClub(int id) {
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clubs", "root", "Mypassword1234");
-            //using prepared statement to delete a club information
+            //using prepared statement to delete a Club information
             PreparedStatement stmt = clubsCon().prepareStatement("DELETE FROM clublist WHERE id = ?");
             stmt.setInt(1, id);
             stmt.executeUpdate();
@@ -249,16 +249,16 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
             //shows error if unsuccessful
-            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Club.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-    //database configuration to delete a club table for members and posts
+    //database configuration to delete a Club table for members and posts
     void deleteTable(String tableName) {
 
         try {
-            //using prepared statement to delete a club table for members 
+            //using prepared statement to delete a Club table for members 
             PreparedStatement stmt = clubsCon().prepareStatement("DROP TABLE `" + tableName + "`;");
 
             stmt.executeUpdate();
@@ -267,11 +267,11 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
             //shows error if unsuccessful
-            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Club.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         try {
-            //using prepared statement to delete a club table for posts
+            //using prepared statement to delete a Club table for posts
             PreparedStatement stmt = clubPostsCon().prepareStatement("DROP TABLE `" + tableName + "`;");
 
             stmt.executeUpdate();
@@ -280,16 +280,16 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
             //shows error if unsuccessful
-            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Club.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-    //database configuration to add a member for a club
+    //database configuration to add a member for a Club
     void addMember(String clubName, String fname, String lname, int grade, int studentNum) {
 
         try {
-            //using prepared statement to add a member for a club
+            //using prepared statement to add a member for a Club
             PreparedStatement stmt = clubsCon().prepareStatement("INSERT INTO `" + clubName + "` (firstname, lastname, grade, studentnumber) VALUES (?, ?, ?, ?)");
             stmt.setString(1, fname);
             stmt.setString(2, lname);
@@ -301,17 +301,17 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
             //shows error if unsuccessful
-            Logger.getLogger(student.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-    //database configuration to increase the size of a club after adding a member
+    //database configuration to increase the size of a Club after adding a member
     void memberIncreased(int clubId) {
 
         int currentSize = 0;
         try {
-            //using prepared statement to increase the size of a club after adding a member
+            //using prepared statement to increase the size of a Club after adding a member
             String query = "SELECT * FROM clublist WHERE id = ?";
             PreparedStatement stmt = clubsCon().prepareStatement(query);
             stmt.setInt(1, clubId);
@@ -323,7 +323,7 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
             //shows error if unsuccessful
-            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Club.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         try {
@@ -337,16 +337,16 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
             //shows error if unsuccessful
-            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Club.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-    //database configuration to add a member for a club
+    //database configuration to add a member for a Club
     void deleteMember(String clubName, int studentNum) {
 
         try {
-            //using prepared statement to add a member for a club
+            //using prepared statement to add a member for a Club
             PreparedStatement stmt = clubsCon().prepareStatement("DELETE FROM `" + clubName + "` WHERE studentnumber = ?");
             stmt.setInt(1, studentNum);
             stmt.execute();
@@ -355,7 +355,7 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
             //shows error if unsuccessful
-            Logger.getLogger(student.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -364,7 +364,7 @@ public class dataBaseCon {
 
         int currentSize = 0;
         try {
-            //using prepared statement to increase the size of a club after adding a member
+            //using prepared statement to increase the size of a Club after adding a member
             String query = "SELECT * FROM clublist WHERE id = ?";
             PreparedStatement stmt = clubsCon().prepareStatement(query);
             stmt.setInt(1, clubId);
@@ -376,7 +376,7 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
             //shows error if unsuccessful
-            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Club.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         try {
@@ -390,12 +390,12 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
             //shows error if unsuccessful
-            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Club.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-    //database configuration to get the list of members of a club
+    //database configuration to get the list of members of a Club
     void getMemberList(String name) {
         int studentId;
         String studentFirstName;
@@ -403,7 +403,7 @@ public class dataBaseCon {
         int studentGrade;
         int studentStudentNumber;
         try {
-            //using create statement to get the list of members of a club
+            //using create statement to get the list of members of a Club
             Statement stmt = clubsCon().createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM `" + name + "`");
             while (rs.next()) {
@@ -426,16 +426,16 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
             //shows error if unsuccessful
-            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Club.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-    //database configuration to add a new post to a club
+    //database configuration to add a new post to a Club
     void addNewPost(String clubName, String clubPost, String postDate) {
 
         try {
-            //using preapred statement to add a new post to a club
+            //using preapred statement to add a new post to a Club
             PreparedStatement stmt = clubPostsCon().prepareStatement("INSERT INTO `" + clubName + "` (post, postdate) VALUES (?, ?)");
             stmt.setString(1, clubPost);
             stmt.setString(2, postDate);
@@ -445,16 +445,16 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
             //shows error if unsuccessful
-            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Club.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-    //database configuration to delete a post to a club
+    //database configuration to delete a post to a Club
     void deletePost(String clubName, int postId) {
 
         try {
-            //using preapred statement to add a new post to a club
+            //using preapred statement to add a new post to a Club
             PreparedStatement stmt = clubPostsCon().prepareStatement("DELETE FROM `" + clubName + "` WHERE id = ?");
             stmt.setInt(1, postId);
             stmt.execute();
@@ -463,19 +463,19 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
             //shows error if unsuccessful
-            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Club.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-    //database configuration to get the list of posts of a club
+    //database configuration to get the list of posts of a Club
     void getPostsFromDataBase(String clubName) {
 
         String post;
         String date;
 
         try {
-            //using create statement to get the list of posts of a club
+            //using create statement to get the list of posts of a Club
             Statement stmt = clubPostsCon().createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM `" + clubName + "` ORDER BY postdate DESC");
             while (rs.next()) {
@@ -490,19 +490,19 @@ public class dataBaseCon {
             }
         } catch (ClassNotFoundException | SQLException ex) {
             //shows error if unsuccessful
-            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Club.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-    //database configuration to get the list of posts of a club with post ids
+    //database configuration to get the list of posts of a Club with post ids
     void getPostsWithIdFromDataBase(String clubName) {
         int id;
         String post;
         String date;
 
         try {
-            //using create statement to get the list of posts of a club
+            //using create statement to get the list of posts of a Club
             Statement stmt = clubPostsCon().createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM `" + clubName + "` ORDER BY postdate DESC");
             while (rs.next()) {
@@ -518,11 +518,11 @@ public class dataBaseCon {
             }
         } catch (ClassNotFoundException | SQLException ex) {
             //shows error if unsuccessful
-            Logger.getLogger(club.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Club.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
-
+    //database configuration to check the admin
     boolean checkAdmin(String user, String pass) {
         boolean loggedIn = false;
         try {
@@ -552,7 +552,7 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
             //shows error if unsuccessful
-            Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
 
         }
 
@@ -563,10 +563,10 @@ public class dataBaseCon {
             return false;
         }
     }
-
+    //database configuration to change the password
     void changePassword(String username, String newPass) {
 
-        //database configuration to update the password for the admin on database
+        //database configuration to update the password for the Admin on database
         try {
             //uses prepared statement to update the password
             PreparedStatement stmt = adminCon().prepareStatement("UPDATE adminlist SET password = ? WHERE username = ?");
@@ -580,14 +580,14 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
             //shows error if unsuccessful
-            Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
-
+    //database configuration to add admin
     void addAdmin(String newUsername, String newPass) {
         try {
-            //inserts a new admin using prepared statements
+            //inserts a new Admin using prepared statements
             PreparedStatement stmt = adminCon().prepareStatement("INSERT INTO adminList (username, password) VALUES (?, ?)");
             stmt.setString(1, newUsername);
             stmt.setString(2, newPass);
@@ -597,10 +597,10 @@ public class dataBaseCon {
 
         } catch (ClassNotFoundException | SQLException ex) {
             //shows error if unsuccessful
-            Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    //database configuration to get admin list
     void getAdminList() {
         String user;
         //configues the database connection to show all the available admins
@@ -616,14 +616,14 @@ public class dataBaseCon {
             }
         } catch (ClassNotFoundException | SQLException ex) {
             //shows error if unsuccessful
-            Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    //database configuration to delete admin 
     void deleteAdmin(String user) {
-        //configures the database connection to delete and admin
+        //configures the database connection to delete and Admin
         try {
-            //deletes the admin using prepared statement
+            //deletes the Admin using prepared statement
             PreparedStatement stmt = adminCon().prepareStatement("DELETE FROM adminList WHERE username = ?");
                 stmt.setString(1, user);
             stmt.execute();
@@ -633,7 +633,7 @@ public class dataBaseCon {
         } catch (ClassNotFoundException | SQLException ex) {
 
             //shows error if unsuccessful
-            Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
