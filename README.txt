@@ -10,7 +10,7 @@ ClubHub's front end is designed for both an admin and a student who would be the
 What are its functionalities?
 
 
--On the admin side, an admin can change password, add an admin, see the list of admins and delete an admin by going through the required verification steps. An admin also has the authority to manage the clubs by adding new clubs, editing their information, adding posts to the clubs’ newsletter, and see the list of club members.
+-On the admin side, an admin can change password, add an admin, see the list of admins and delete an admin by going through the required verification steps. An admin also has the authority to manage the clubs by adding new clubs, editing their information, adding/deleting posts to the clubs’ newsletter, and see the list of club members, adding members and deleting them.
 
 
 -On the client side, students can see the full list of available clubs in their school, they can check out the club newsletters and posts as well as joining a club if they want to do so.
@@ -31,7 +31,7 @@ The main design is based on object-oriented programming, each class having the f
    * adminEngine calls upon the club class in case of any operations related to club information.
       * club class calls upon the dataBaseCon class to implement the adjustments initiated by adminEngine in the clubs database.
    * adminEngine calls upon the admin class in case of any operations related to the admin information.
-      * admin class implement the adjustments initiated by adminEngine in the admins database.
+      * admin  class calls upon the dataBaseCon class to implement the adjustments initiated by adminEngine in the admins database.
 
 
 
