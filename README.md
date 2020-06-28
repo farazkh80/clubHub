@@ -1,7 +1,7 @@
 --READ ME--
 
 
-ClubHub is an admin/client based project develop in JAVA, with the use of JDK libraries and MySql database configuration with the motivation of developing a club/extracurricular portal for schools to list out and manage the clubs available in their  school and give the chance to students to explore the different clubs and join them if interested.
+ClubHub is an admin/client based project developed in JAVA, with the use of JDK libraries and MySql database configuration with the motivation of developing a club/extracurricular portal for schools to list out and manage the clubs available in their  school and give the chance to students to explore the different clubs and join them if interested.
 
 
 ClubHub's front end is designed for both an admin and a student who would be the potential clients of this project.
